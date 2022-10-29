@@ -1,0 +1,59 @@
+package teste.frontend;
+
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import org.openqa.selenium.By;
+import org.openqa.selenium.chrome.ChromeDriver;
+
+public class testenavegabilidade {
+	ChromeDriver driver;
+
+	//preteste
+	
+	@Before
+	public void preTeste() {
+		System.setProperty("webdriver.chrome.driver", "C:\\Users\\Lennon Fonseca\\OneDrive\\Documentos\\chromedriver");
+		
+		driver = new ChromeDriver();
+		driver.manage().window().maximize();
+		driver.get("http://localhost:4200/");
+	}
+	
+	//teste
+	
+	@Test
+	public void TesteNavegacao() throws InterruptedException {
+		
+		String[]listasenhas={"342423","safdasdf","123","aaaa", "123456"};
+		
+		for (int tentativas=0; tentativas<listasenhas.length; tentativas++){
+			try{
+				driver.findElement(By.id("inscrever")).click();
+				Thread.sleep(250);
+				driver.findElement(By.id("logar")).click();
+				Thread.sleep(250);
+				driver.findElement(By.id("login")).sendKeys("lennon@hotmail.com");
+				Thread.sleep(250);
+				driver.findElement(By.id("senha")).sendKeys("1234");
+				Thread.sleep(250);
+				driver.findElement(By.id("senha")).sendKeys(listasenhas[tentativas]);
+				Thread.sleep(250);
+				driver.findElement(By.id("enviar")).click();
+				Thread.sleep(250);
+				driver.switchTo().alert().accept();
+				
+			}catch (InterruptedException error){
+				error.printStackTrace();
+			}
+		}
+		
+	}
+	
+	//posteste
+	
+	@After
+	public void posTeste() throws InterruptedException {
+		Thread.sleep(3000);
+		//driver.quit();
+	}
